@@ -20,6 +20,9 @@ class FunctionsProcessing:
     def rotate_image(self, image):
         return cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE), "cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)\n"
 
+    def flip_image(self,image):
+        return cv2.flip(image,1), "cv2.flip(image,1)\n"
+
     def threshold_image(self, image):
 
         result = None
@@ -129,6 +132,15 @@ class FunctionsProcessing:
         button.pack(pady=10)
         new_window.wait_window()
         return result
+
+    def perspective(self,image):
+        h, w = image.shape[:2]
+        src = np.float32([[345, 149], [824, 151],
+                           [290, 370],[722, 520]])
+        dst = np.float32([[0, 0], [800, 0],
+                           [0, 640], [800, 640]])
+        M = cv2.getPerspectiveTransform(src,dst)
+        return cv2.warpPerspective(image, M, (w, h)), "M = cv2.getPerspectiveTransform(src,dst)\ncv2.warpPerspective(image, M, (w, h))\n"
 
 
     def canny_detection(self, image):

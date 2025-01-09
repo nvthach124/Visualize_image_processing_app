@@ -27,11 +27,13 @@ class GUI:
             ("BGR to Gray"   , "BGR to Gray"   ),
             ("BGR to HSV"    , "BGR to HSV"    ),
             ("Resize"        , "Resize"        ),
+            ("Flip"          , "Flip"          ),
             ("Rotate_90"     , "Rotate_90"     ),
             ("Threshold"     , "Threshold"     ),
             ("Equalized"     , "Equalized"     ),
             ("Move"          , "Move"          ),
             ("Rotate Matrix" , "Rotate Matrix" ),
+            ("Perspective"   , "Perspective"   ),
             ("Canny"         , "Canny"         ),
             ("GaussianBlur"  , "GaussianBlur"  ),
             ("MedianBlur"    , "MedianBlur"    ),
@@ -50,14 +52,14 @@ class GUI:
         self.canvas.place(x=200, y=50)
 
         for i, (label, transformation) in enumerate(self.functions):
-            if i<8:
+            if i<9:
                 Button(self.root, text=label, font=("Arial", 11), height=2, width=10,
                    command=lambda t=transformation: self.apply_transformation(t)).place(x=50,
                                                                                         y=100 + i * 50)
             else:
                 Button(self.root, text=label, font=("Arial", 11), height=2, width=10,
                    command=lambda t=transformation: self.apply_transformation(t)).place(x=1240,
-                                                                                        y=100 + (i-8) * 50)
+                                                                                        y=100 + (i-9) * 50)
 
         # Zoom buttons
         Button(self.root, text="Zoom +", command=self.zoom_in).place(x=650, y=620)
@@ -120,11 +122,13 @@ class GUI:
             "BGR to Gray"   : self.fp.cvt_GRAY    ,
             "BGR to HSV"    : self.fp.cvt_HSV     ,
             "Resize"        : self.fp.resize_image,
+            "Flip"          : self.fp.flip_image,
             "Rotate_90"     : self.fp.rotate_image,
             "Threshold"     : self.fp.threshold_image,
             "Equalized"     : self.fp.equalized_image,
             "Move"          : self.fp.move_image,
             "Rotate Matrix" : self.fp.rotationMatrix2d,
+            "Perspective"   : self.fp.perspective,
             "Canny"         : self.fp.canny_detection,
             "GaussianBlur"  : self.fp.gaussianBlur,
             "MedianBlur"    : self.fp.medianBlur,
