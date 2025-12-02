@@ -1,243 +1,110 @@
-## Overview
+# Image Processing Studio
 
-This application provides a user-friendly interface for applying common image processing operations using OpenCV in Python. The GUI allows users to load images, apply various transformations, and see the corresponding OpenCV code in real-time.
+A comprehensive, user-friendly GUI application for image processing using OpenCV and Python. This tool allows users to apply a wide range of image transformations, filters, and analysis techniques while viewing the underlying OpenCV code in real-time.
 
 ## Features
 
-- **Interactive GUI**: Easy-to-use interface with image preview
-- **Real-time Code Display**: See the OpenCV code for each operation
-- **Undo/Redo Functionality**: Track your image processing history
-- **Multiple Processing Categories**:
-  - Color Space Conversions
-  - Transformations
-  - Filters & Effects
-  - Drawing Operations
+- **Interactive GUI**: Intuitive interface with real-time image preview.
+- **Real-time Code Generation**: Learn OpenCV by seeing the code for every operation you perform.
+- **Undo/Redo History**: Experiment freely with full history support.
+- **Zoom & Pan**: Inspect images in detail.
+- **Extensive Toolset**:
+  - **Color Conversions**: Grayscale, HSV, Negative.
+  - **Geometric Transformations**: Resize, Rotate, Flip, Perspective, Translation.
+  - **Intensity Transformations**: Log, Gamma Correction, Contrast/Brightness.
+  - **Morphological Operations**: Erosion, Dilation, Opening, Closing.
+  - **Filters & Enhancement**: Gaussian/Median Blur, Histogram Equalization, Contrast Enhancement.
+  - **Segmentation & Edge Detection**: Global/Adaptive Thresholding, Canny Edge Detection.
+  - **Advanced Processing**: Image Registration (Feature Matching), Image Stitching (Panorama).
+  - **Drawing Tools**: Lines, Rectangles, Circles, Text.
 
 ## Getting Started
 
 ### Prerequisites
 
 - Python 3.x
-- OpenCV
-- Pillow (PIL)
-- Tkinter (usually comes with Python)
+- OpenCV (`opencv-python`)
+- Pillow (`Pillow`)
+- Tkinter (usually included with Python)
+- NumPy (`numpy`)
 
 ### Installation
 
-1. Clone this repository:
-   ```bash
-   git clone https://github.com/nvthach124/Visualize_image_processing_app.git
-   cd Visualize_image_processing_app
-   ```
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/nvthach124/Visualize_image_processing_app.git
+    cd Visualize_image_processing_app
+    ```
 
-2. Install required packages:
-   ```bash
-   pip install opencv-python pillow
-   ```
+2.  **Install required packages:**
+    ```bash
+    pip install opencv-python pillow numpy
+    ```
+    *(Note: `opencv-contrib-python` might be needed for some advanced features like SIFT if not included in the standard package)*
 
 ### Usage
 
-Run the main script to start the application:
+Run the main script to launch the application:
 
 ```bash
 python main.py
 ```
 
-## OpenCV Image Processing Functions
+## Functionality Overview
 
-### 1. Image Input/Output
+### 1. Color Space Conversions
+- **Grayscale**: Converts image to black and white.
+- **HSV**: Converts to Hue-Saturation-Value color space.
+- **Negative**: Inverts pixel values.
 
-#### Reading and Displaying Images
+### 2. Geometric Transformations
+- **Resize**: Scale image by percentage or dimensions.
+- **Flip**: Mirror image horizontally, vertically, or both.
+- **Rotate**: Rotate by 90-degree increments or arbitrary angles.
+- **Move (Translation)**: Shift image along X and Y axes.
+- **Perspective Transform**: Correct perspective distortion by selecting 4 points.
 
-```python
-image = cv2.imread(file_image_path)
-cv2.imshow("window_name", image)  # Displays the image in a window
-```
+### 3. Intensity Transformations
+- **Log Transform**: Expands dark values (good for low-contrast images).
+- **Power Transform (Gamma)**: Corrects brightness (`gamma < 1` brightens, `gamma > 1` darkens).
+- **Contrast & Brightness**: Linear adjustment (`alpha * image + beta`).
+- **Histogram Viewer**: View RGB and Grayscale histograms.
 
-#### Saving Images
+### 4. Morphological Operations
+- **Erosion**: Erodes away boundaries of foreground objects.
+- **Dilation**: Increases the object area.
+- **Opening**: Erosion followed by Dilation (removes noise).
+- **Closing**: Dilation followed by Erosion (closes small holes).
 
-```python
-cv2.imwrite("new_file_name.jpg", image)
-```
+### 5. Filters & Enhancement
+- **Gaussian Blur**: Smooths image using a Gaussian kernel.
+- **Median Blur**: Effective for removing salt-and-pepper noise.
+- **Histogram Equalization**: Improves contrast by stretching the intensity range.
 
-### 2. Color Space Conversion
+### 6. Segmentation & Edge Detection
+- **Global Thresholding**: Binary thresholding with manual or Otsu's method.
+- **Adaptive Thresholding**: Threshold value calculated for smaller regions (Mean or Gaussian).
+- **Canny Edge Detection**: Detects edges using multi-stage algorithm with hysteresis.
 
-```python
-# Convert BGR to Grayscale
-gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+### 7. Advanced Processing
+- **Image Registration**: Aligns a "moving" image to a "reference" image using feature matching (ORB or SIFT) and Homography.
+- **Image Stitching**: Combines multiple overlapping images into a seamless panorama.
 
-# Convert BGR to HSV
-hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+### 8. Drawing Tools
+- Draw **Lines**, **Rectangles**, **Circles**, and add **Text** directly onto the image.
 
-# Convert BGR to RGB
-rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-```
+## Keyboard Shortcuts
 
-### 3. Basic Image Processing
-
-#### Resize Image
-
-```python
-resized_image = cv2.resize(image, (width, height), interpolation=cv2.INTER_LINEAR)
-```
-
-Parameters:
-- `width`, `height`: Target dimensions
-- `interpolation`: Method used (options include `cv2.INTER_LINEAR`, `cv2.INTER_CUBIC`, `cv2.INTER_AREA`)
-
-#### Flip Image
-
-```python
-flipped_image = cv2.flip(image, flipCode)
-```
-
-Parameters:
-- `flipCode = 0`: Flip vertically
-- `flipCode > 0`: Flip horizontally
-- `flipCode < 0`: Flip both horizontally and vertically
-
-#### Rotate Image
-
-```python
-# 90° rotation
-rotated_image = cv2.rotate(image, cv2.ROTATE_90_CLOCKWISE)
-```
-
-Rotation values:
-- `cv2.ROTATE_90_CLOCKWISE`
-- `cv2.ROTATE_90_COUNTERCLOCKWISE`
-- `cv2.ROTATE_180`
-
-#### Thresholding
-
-```python
-_, binary_image = cv2.threshold(gray_image, threshold_value, max_value, threshold_type)
-```
-
-Parameters:
-- `threshold_value`: Threshold level (0-255)
-- `max_value`: Maximum value assigned to pixels above threshold
-- `threshold_type`: Type of thresholding (e.g., `cv2.THRESH_BINARY`, `cv2.THRESH_BINARY_INV`)
-
-### 4. Transformations
-
-#### Translation (Moving Image)
-
-```python
-# Create translation matrix
-M = np.float32([[1, 0, tx], [0, 1, ty]])
-# Apply transformation
-translated_image = cv2.warpAffine(image, M, (width, height))
-```
-
-Parameters:
-- `tx`: Horizontal shift
-- `ty`: Vertical shift
-
-#### Rotation
-
-```python
-# Create rotation matrix
-M = cv2.getRotationMatrix2D(center, angle, scale)
-# Apply transformation
-rotated_image = cv2.warpAffine(image, M, (width, height))
-```
-
-Parameters:
-- `center`: Point of rotation `(cx, cy)`
-- `angle`: Rotation angle in degrees (positive = counterclockwise)
-- `scale`: Scaling factor
-
-#### Perspective Transformation
-
-```python
-# Create perspective transformation matrix
-M = cv2.getPerspectiveTransform(src_points, dst_points)
-# Apply transformation
-warped_image = cv2.warpPerspective(image, M, (width, height))
-```
-
-Parameters:
-- `src_points`: Four source points in the original image
-- `dst_points`: Four corresponding destination points
-
-### 5. Edge Detection
-
-```python
-edges = cv2.Canny(image, threshold1, threshold2)
-```
-
-Parameters:
-- `threshold1`: Lower threshold for edge detection
-- `threshold2`: Upper threshold for edge detection
-
-### 6. Filtering and Smoothing
-
-#### Gaussian Blur
-
-```python
-blurred_image = cv2.GaussianBlur(image, (kernel_size, kernel_size), sigma)
-```
-
-Parameters:
-- `kernel_size`: Size of kernel (must be odd, e.g., 3, 5, 7)
-- `sigma`: Standard deviation (0 = auto-calculated)
-
-#### Median Blur
-
-```python
-median_filtered = cv2.medianBlur(image, kernel_size)
-```
-
-Parameters:
-- `kernel_size`: Size of kernel (must be odd)
-
-### 7. Drawing Functions
-
-#### Line
-
-```python
-image = cv2.line(image, (x1, y1), (x2, y2), color, thickness)
-```
-
-#### Rectangle
-
-```python
-image = cv2.rectangle(image, (x1, y1), (x2, y2), color, thickness)
-```
-
-#### Circle
-
-```python
-image = cv2.circle(image, (center_x, center_y), radius, color, thickness)
-```
-
-#### Text
-
-```python
-image = cv2.putText(image, text, (x, y), font, font_scale, color, thickness, line_type)
-```
-
-Parameters:
-- `text`: String to display
-- `font`: Font type (e.g., `cv2.FONT_HERSHEY_SIMPLEX`)
-- `font_scale`: Font size
-- `color`: (B, G, R) color tuple
-- `thickness`: Line thickness
-- `line_type`: Line type (default: `cv2.LINE_AA` for anti-aliased)
-
-## Application Keyboard Shortcuts
-
-- `Ctrl+O`: Open image
-- `Ctrl+S`: Save image
-- `Ctrl+Z`: Undo
-- `Ctrl+Y`: Redo
-- `Ctrl+R`: Reset image
-- `+`: Zoom in
-- `-`: Zoom out
+| Shortcut | Action |
+| :--- | :--- |
+| `Ctrl + O` | Open Image |
+| `Ctrl + S` | Save Image |
+| `Ctrl + R` | Reset Image |
+| `Ctrl + Z` | Undo |
+| `Ctrl + Y` | Redo |
+| `+` | Zoom In |
+| `-` | Zoom Out |
 
 ## Contributing
 
-Contributions to improve the application are welcome! Feel free to submit issues or pull requests.
-
-
+Contributions are welcome! Please feel free to submit a Pull Request.
